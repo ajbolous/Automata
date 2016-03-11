@@ -1,7 +1,7 @@
 import random
 
 class DFA(object):
-    def __init__(self,states,start,sigma,final,delta):
+    def __init__(self, states, start, sigma, final, delta):
         self._states = states
         self._state = start
         self._sState = start
@@ -9,12 +9,11 @@ class DFA(object):
         self._fStates = final
         self._delta = delta
 
-
     def compute(self, w):
         if len(w) == 0:
             return self._state in self._fStates
+        print('->{}'.format((self._state,w)))
         self._state = self._delta[(self._state, w[0])]
-        print('->{}'.format((self._state,w[1:])))
         return self.compute(w[1:])
 
     def combine(self, other):
@@ -41,16 +40,13 @@ class DFA(object):
             for c in self._sigma:
                 delta[(state,c)] = self._states[random.randint(0,len(self._states)-1)]
         self._delta = delta
-        print(len(delta))
         print(delta)
-
 
 
 states = ['A','B']
 start = 'A'
 sigma = ['0','1']
 final = ['B']
-
 
 aut1 = DFA(states,start,sigma,final,None)
 aut1.randomize()
