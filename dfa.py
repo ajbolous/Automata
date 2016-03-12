@@ -10,7 +10,7 @@ class DFA(object):
         self._delta = delta
 
     def draw(self, canvas):
-        pass
+        print("hello man")
 
     def compute(self, w):
         if len(w) == 0:
