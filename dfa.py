@@ -9,6 +9,9 @@ class DFA(object):
         self._fStates = final
         self._delta = delta
 
+    def draw(self, canvas):
+        pass
+
     def compute(self, w):
         if len(w) == 0:
             return self._state in self._fStates
