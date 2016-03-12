@@ -1,4 +1,5 @@
 import dfa
 
 class NFA(DFA):
-	pass
+	def toDfa(self):
+		return self
