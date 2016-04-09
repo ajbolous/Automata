@@ -106,13 +106,13 @@ NextLoop:
        JMP SetCursor
    RIGHT:
        CMP DI,999
-       JGE LABEL
+       JGE setCursor
        INC DI
        MOV BX,DI
        JMP SetCursor
    UP:
        CMP DI,39
-       JNG LABEL
+       JNG setCursor
        SUB DI,40
        MOV BX,DI
        JMP SetCursor
