@@ -1,2 +1,3 @@
 c:\users\ahdab serhan\documents\visual studio 2015\Projects\Hw1-languegesProgramming\Hw1-languegesProgramming\bin\Debug\Hw1-languegesProgramming.exe.config
 E:\Automata\Hw1\Hw1-languegesProgramming\bin\Debug\Hw1-languegesProgramming.exe.config
+E:\Automata\Hw1\Hw1-languegesProgramming\obj\Debug\Hw1-languegesProgramming.csprojResolveAssemblyReference.cache
