@@ -58,17 +58,18 @@ Start              PROC    FAR
   MOV              DI,0          ; Initial offset address into segment
   MOV              AL,' '        ; Character space to fill adapter memory
   MOV              AH,0Eh        ; Attribute byte : Intense yellow
+  mov              var,AH
   MOV              CX,1000       ; Initialize count, 1 Screen
   CLD                            ; Write forward
   REP              STOSW         ; Write
 ;
-; Write 'A' in mid screen
-;
-  MOV              BYTE PTR ES:[2*(12*40+20)],'A'
+
+  
 ;
 ; Set the cursor address registers
 ;
   MOV              BX,12*40+20
+  MOV          DI,BX   
   CALL             SetCursorPos
 ;
 ;PART 2 : Wait for key strike
@@ -99,28 +100,28 @@ NextLoop:
     JMP LETTER
   LEFT:
        CMP DI,0
-       jng LABEL
+       jng setCursor
        DEC DI
        MOV BX,DI
-       JMP LABEL
+       JMP SetCursor
    RIGHT:
        CMP DI,999
        JGE LABEL
        INC DI
        MOV BX,DI
-       JMP LABEL
+       JMP SetCursor
    UP:
        CMP DI,39
        JNG LABEL
        SUB DI,40
        MOV BX,DI
-       JMP LABEL
+       JMP SetCursor
    DOWN:
        CMP DI,960
-       JGE LABEL
+       JGE SetCursor
        ADD DI,40
        MOV BX,DI
-       JMP LABEL
+       JMP SetCursor
  ; 3D4H  Graphics adapter address register port
 ; 3D5H  Graphics adapter data register port
 ;
@@ -130,25 +131,24 @@ NextLoop:
        OUT DX,AX     ; Port(3D4h) = 0Ah, Port(3D5h) = 01h
        MOV AX,0F0Bh  ; Cursor end address - Value 15 (0Eh)
        OUT DX,AX     ; Port(3D4h) = 0Bh, Port(3D5h) = 0Eh
-       JMP  LABEL
+       JMP  SetCursor
     MINCURSOR:   
        MOV  DX,3D4h  ; Point TO 3D4h - 3D5h port pair
        MOV  AX,000Ah ; Cursor start address (0Ah) - Value 0 (00h)
        OUT  DX,AX    ; Port(3D4h) = 0Ah, Port(3D5h) = 01h
        MOV  AX,0F0Bh ; Cursor end address - Value 15 (0Eh)
        OUT   DX,AX    ; Port(3D4h) = 0Bh, Port(3D5h) = 0Eh
-       JMP LABEL
+       JMP SetCursor
     ATTRIBUTE:
        MOV  Dl,var 
        INC  Dl
        MOV  var,Dl
-
        MOV   AH,var
        SHL   DI,1
        MOV   AL,BYTE PTR ES:[DI]
        MOV   ES:[DI],AX
        SHR   DI,1
-       JMP  LABEL
+       JMP  SetCursor
     
     
    
@@ -160,7 +160,7 @@ NextLoop:
        CMP DI,998
        JG LABEL
        ADD DI,1
-    LABEL:
+       SetCursor:
        MOV BX,DI
        CALL setCursorPos
        JMP  NextLoop   ; Repeat main loop
