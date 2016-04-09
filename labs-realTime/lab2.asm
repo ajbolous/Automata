@@ -154,7 +154,7 @@ NextLoop:
    
     LETTER:
        MOV BX,DI
-       SHL DI,1 ; set the cursor in  not even offset position  
+       SHL DI,1 ; set the cursor in   even offset position  
        MOV BYTE PTR ES:[DI],AL ;read the letter
        SHR DI,1 ; set rhe position of the cursor after we read the letter
        CMP DI,998
