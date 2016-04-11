@@ -144,10 +144,10 @@ NextLoop:
        INC  Dl
        MOV  var,Dl
        MOV   AH,var
-       SHL   DI,1
+       SHL DI,1
        MOV   AL,BYTE PTR ES:[DI]
        MOV   ES:[DI],AX
-       SHR   DI,1
+       SHR DI,1
        JMP  SetCursor
     
     
@@ -158,7 +158,7 @@ NextLoop:
        MOV BYTE PTR ES:[DI],AL ;read the letter
        SHR DI,1 ; set rhe position of the cursor after we read the letter
        CMP DI,998
-       JG LABEL
+       JG setCursor
        ADD DI,1
        SetCursor:
        MOV BX,DI
