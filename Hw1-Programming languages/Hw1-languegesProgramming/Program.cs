@@ -9,22 +9,18 @@ namespace Hw1_languegesProgramming
     class Number
     {
         private int n;
-        char[] digits;
+        int[] digits;
         
 
         public Number(string digits, int n)
         {
-
-            int i;
             int powerOfTwo = 1;
-            
+            this.digits = new int[n];
             while (powerOfTwo < n && powerOfTwo < 2147483648)
-            {
                 powerOfTwo *= 2;
-            }
-           
-            for (i = 0; i < powerOfTwo; i++)
-               this. digits[i] = digits[i];
+
+            for (int i = 0; i < powerOfTwo; i++)
+                this.digits[i] = (digits[i] - '0');
 
         }
         public Number()
@@ -35,8 +31,7 @@ namespace Hw1_languegesProgramming
            
         }
         public int N { get { return n; } }
-        
-
+       
          public override string ToString()
          {
             int i;
@@ -44,85 +39,50 @@ namespace Hw1_languegesProgramming
             for (i = 0; i < n; i++)
                 ret += digits[i].ToString();
             return ret;
-
          }
-
-        public bool Equals(Number num)// hav to remove
-        {
-            int count = 0, i;
-            if ((object)num == null)
-            {
-                return false;
-            }
-
-            for (i = 0; i < num.n; i++)
-            {
-                if (num.digits[i] == digits[i])//checks of all the digits of the binary num are equals
-                    count++; ;
-            }
-            if (count == n)
-                return true;
-            else
-                return false;
-        }
-
 
         public static Number operator +(Number b1, Number b2)//adding two binary numbers
         {
-            int i, j, k;
-            Number num = new Number();
-            bool carry = false;
-            if (b1.n > b2.n)
-                num.n = b1.n;
-            else
-                num.n = b2.n;
+            int i, j, k, carry =0;
+            int n = (b1.n > b2.n ? b1.n : b2.n);
+            Number num = new Number("0",n);
             for (i = b1.n, j = b2.n, k = num.n; i >= 0; i--, j--, k--)
             {
-                char x = b1.digits[i];
-                char y = j >= 0 ? b2.digits[j] : '0';
-
-                if (carry)
+                int sum = b1.digits[i] + b2.digits[j] + carry;
+                if(sum == 2)
                 {
-                    num.digits[k] = x == y ? '1' : '0';
-                    carry = x == '1' || y == '1';
+                    carry = 1;
+                    sum = 1;
                 }
-                else
-                {
-                    num.digits[k] = x == y ? '0' : '1';
-                    carry = x == '1' && y == '1';
-                }
+                num.digits[k] = sum;
             }
-
-            if (carry)
+            num.digits[k-1] = carry;
+            return num;
+        }
+        public static Number operator *(Number b1,Number b2)
+        {
+            Number num = new Number();
+            
+            int i;
+            for (i = 0; i < b1.n; i++)
             {
-                num.digits[0] = '1';
-               
+                shiftLeft(num.digits);
+
             }
 
             return num;
 
-        }
-        public  Number operator *(Number b1,Number b2)
-        {
-
-            
-            
-                   
-
             
 
         }
-        public char [] shiftLeft(char[]arr,int n)
+        public static void shiftLeft(int []arr)
         {
             int i;
-            char [] array = new char[arr.Length];
-            array = null;
-            for (i = arr.Length; i > n; i--)
-                array[i-n] = arr[i];
-
-            for (i = 0; i < n; i++)
-                array[arr.Length - i] = '0';
-            return array;
+            int[] newarr = new int[arr.Length];
+            for (i = 0; i < arr.Length - 1; i++)
+                newarr[i] = arr[i+1];
+            newarr[arr.Length - 1] = 0;
+         
         }
     }
 
